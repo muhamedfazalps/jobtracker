@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home</title>
+</head>
+<body>
+    <h1>Welcome to Job Tracker</h1>
+
+    {% if user.is_authenticated %}
+        <p>Hello, {{ user.username }}!</p>
+        {% if user.is_recruiter %}
+            <p>You are logged in as a <strong>Recruiter</strong>.</p>
+        {% elif user.is_jobseeker %}
+            <p>You are logged in as a <strong>Job Seeker</strong>.</p>
+        {% endif %}
+        <p><a href="{% url 'logout' %}">Logout</a></p>
+    {% else %}
+        <p>You are not logged in. <a href="{% url 'login' %}">Login</a></p>
+    {% endif %}
+</body>
+</html>
