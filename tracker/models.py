@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import AbstractUser
 class JobApplication(models.Model):
     STAGES = [
         ('applied', 'Applied'),
@@ -15,3 +15,6 @@ class JobApplication(models.Model):
 
     def __str__(self):
         return f"{self.company} - {self.position}"
+class CustomUser(AbstractUser):
+    is_recruiter = models.BooleanField(default=False)
+    is_jobseeker = models.BooleanField(default=False)
