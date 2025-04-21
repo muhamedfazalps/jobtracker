@@ -1,17 +1,41 @@
 from django.shortcuts import render, redirect
-from .models import JobApplication
-from .forms import JobForm
+from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.forms import AuthenticationForm
+from .forms import RecruiterSignUpForm, JobSeekerSignUpForm
 
-def index(request):
-    jobs = JobApplication.objects.all().order_by('-applied_on')
-    return render(request, 'tracker/index.html', {'jobs': jobs})
-
-def add_job(request):
+def recruiter_signup(request):
     if request.method == 'POST':
-        form = JobForm(request.POST)
+        form = RecruiterSignUpForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            login(request, user)
             return redirect('home')
     else:
-        form = JobForm()
-    return render(request, 'tracker/add.html', {'form': form})
+        form = RecruiterSignUpForm()
+    return render(request, 'signup.html', {'form': form, 'user_type': 'Recruiter'})
+
+def jobseeker_signup(request):
+    if request.method == 'POST':
+        form = JobSeekerSignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('home')
+    else:
+        form = JobSeekerSignUpForm()
+    return render(request, 'signup.html', {'form': form, 'user_type': 'Job Seeker'})
+
+def login_view(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('home')
+    else:
+        form = AuthenticationForm()
+    return render(request, 'login.html', {'form': form})
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')
