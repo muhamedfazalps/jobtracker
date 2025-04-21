@@ -5,7 +5,7 @@ from .models import CustomUser
 class RecruiterSignUpForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = CustomUser
-        fields = UserCreationForm.Meta.fields
+        fields = ['username', 'email', 'password1', 'password2']
 
     def save(self, commit=True):
         user = super().save(commit=False)
@@ -17,7 +17,7 @@ class RecruiterSignUpForm(UserCreationForm):
 class JobSeekerSignUpForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = CustomUser
-        fields = UserCreationForm.Meta.fields
+        fields = ['username', 'email', 'password1', 'password2']
 
     def save(self, commit=True):
         user = super().save(commit=False)
