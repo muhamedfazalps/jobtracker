@@ -2,6 +2,11 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import RecruiterSignUpForm, JobSeekerSignUpForm
+from django.shortcuts import render
+
+def home(request):
+    return render(request, 'home.html')
+
 
 def recruiter_signup(request):
     if request.method == 'POST':
